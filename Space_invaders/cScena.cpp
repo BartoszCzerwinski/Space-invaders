@@ -7,7 +7,7 @@
 #include <chrono>
 cScena::cScena() : active_id_(0) {
 
-	gracz_ = new cGracz(1, 1, 0, 0);
+	gracz_ = new cGracz(1, 1, 0, 0,3);
 	belka_1_ = new cBelka(0.954, 0.3, 0, -1.5);
 	belka_2_ = new cBelka(0.954, 0.3, -2, -1.5);
 	belka_3_ = new cBelka(0.954, 0.3, 2, -1.5);

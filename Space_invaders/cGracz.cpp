@@ -5,7 +5,8 @@
 #include "cGracz.h"
 #include"cKula.h"
 
-cGracz::cGracz(double a, double b, double x, double y) : cFigura(x,y), a_(a), b_(b) {
+cGracz::cGracz(double a, double b, double x, double y,int zycia) : cFigura(x,y), a_(a), b_(b) {
+	this->zycia_ = zycia;
  ustaw_geometria(x,y,-0.477,0,0.477,0.5);
 }
 
