@@ -1,3 +1,5 @@
 Debug/
 Space_invaders/Debug/
 .vs/
+Space_invaders.sln
+*.vcxproj*
