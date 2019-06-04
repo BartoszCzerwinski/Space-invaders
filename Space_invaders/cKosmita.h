@@ -12,12 +12,20 @@ class cKosmita : public cFigura {
 	int do_dolu;
 	float pozycja_kolumn_x_;
 	float pozycja_kolumn_y_;
+	int poziom_;
+	float kolor_r;
+	float kolor_g;
+	float kolor_b;
+
 
 public:
-	cKosmita(double a, double b, double x, double y,float pozycja_kolumn_x,float pozycja_kolumn_y);
+	cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom_);
 	void rysuj();
 	void kosmita_lata();
+	void kosmita_traci_poziom();
+	int get_poziom();
 	void ustaw_rozmiar(double a, double b);
+
 
 };
 

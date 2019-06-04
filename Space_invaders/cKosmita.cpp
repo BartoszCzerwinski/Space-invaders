@@ -2,7 +2,7 @@
 
 #include "cKosmita.h"
 
-cKosmita::cKosmita(double a, double b, double x, double y,float pozycja_kolumn_x,float pozycja_kolumn_y) : cFigura(x, y), a_(a), b_(b) {
+cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom) : cFigura(x, y), a_(a), b_(b) {
 	ustaw_geometria(x, y, -a / 2, -b / 2, a / 2, b / 2);
 	this->pozycja_kolumn_x_ = pozycja_kolumn_x;
 	this->pozycja_kolumn_y_ = pozycja_kolumn_y;
@@ -10,43 +10,54 @@ cKosmita::cKosmita(double a, double b, double x, double y,float pozycja_kolumn_x
 	do_lewej = 0;
 	do_gory = 1;
 	do_dolu = 0;
+	this->poziom_ = poziom;
+}
+
+int cKosmita::get_poziom()
+{
+	return poziom_;
+}
+
+void cKosmita::kosmita_traci_poziom()
+{
+	poziom_ = poziom_ - 1;
 }
 
 void cKosmita::kosmita_lata()
 {
-	if ((do_prawej == 1) && x_ <= 1.909+pozycja_kolumn_x_)
+	if ((do_prawej == 1) && x_ <= 1.909 + pozycja_kolumn_x_)
 	{
 		x_ += 0.02;
-		if (x_>= 1.909+pozycja_kolumn_x_)
+		if (x_ >= 1.909 + pozycja_kolumn_x_)
 		{
 			do_prawej = 0;
 			do_lewej = 1;
 		}
 	}
 
-	if ((do_lewej == 1) && x_ >= -1.909+pozycja_kolumn_x_)
+	if ((do_lewej == 1) && x_ >= -1.909 + pozycja_kolumn_x_)
 	{
 		x_ -= 0.02;
-		if (x_ <= -1.909+pozycja_kolumn_x_)
+		if (x_ <= -1.909 + pozycja_kolumn_x_)
 		{
 			do_prawej = 1;
 			do_lewej = 0;
 		}
 	}
 
-	if ((do_gory == 1) && y_ <= 1.5+pozycja_kolumn_y_)
+	if ((do_gory == 1) && y_ <= 1.5 + pozycja_kolumn_y_)
 	{
 		y_ += 0.02;
-		if (y_ >= 1.5+pozycja_kolumn_y_)
+		if (y_ >= 1.5 + pozycja_kolumn_y_)
 		{
 			do_gory = 0;
 			do_dolu = 1;
 		}
 	}
-	if ((do_dolu == 1) && y_ >= -1+pozycja_kolumn_y_)
+	if ((do_dolu == 1) && y_ >= -1 + pozycja_kolumn_y_)
 	{
 		y_ -= 0.02;
-		if (y_ <= -1+pozycja_kolumn_y_)
+		if (y_ <= -1 + pozycja_kolumn_y_)
 		{
 			do_gory = 1;
 			do_dolu = 0;
@@ -58,14 +69,35 @@ void cKosmita::kosmita_lata()
 
 
 void cKosmita::rysuj() {
+
+	if (poziom_ == 1)
+	{
+		kolor_r = 0.0;
+		kolor_g = 0.2;
+		kolor_b = 0.0;
+	}
+	if (poziom_ == 2)
+	{
+		kolor_r = 0.0;
+		kolor_g = 0.6;
+		kolor_b = 0.0;
+	}
+	if (poziom_ == 3)
+	{
+		kolor_r = 0.0;
+		kolor_g = 1.0;
+		kolor_b = 0.0;
+	}
+
 	glPushMatrix();
+
 
 	glTranslated(x_, y_, 0.0);
 	glRotated(0, 1.0, 0.0, 0.0);
 	glRotated(0, 0.0, 1.0, 0.0);
 	glRotated(0, 0.0, 0.0, 1.0);
 
-	glColor3d(0.0, 1.0, 0.0);
+	glColor3d(kolor_r, kolor_g, kolor_b);
 
 	glBegin(GL_POLYGON);
 	{

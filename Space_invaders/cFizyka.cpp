@@ -107,14 +107,14 @@ int cFizyka::kolizja(cFizyka &X) //wykrywanie kolizji z innym obiektem (funkcja 
     else if(w_prosokacie(X.x_ + X.granica_.xb, X.y_ + X.granica_.ya, *this) == 1 ) kolizja = 1;
 
     //obsluga kolizji
-    /*if (kolizja)
+    if (kolizja)
     {
         //znalezienie boku od ktorego nastapi odbicie
         float alfa_n= znajdz_normalna(X);
-        odbicie(alfa_n);
+        odbicie(alfa_n);                                   //Tutaj zakomentowałem
         float kat=(alfa_n>0)?alfa_n-180:alfa_n+180;
         X.odbicie(kat);
-    }*/
+    }
 
     return kolizja;
 }
@@ -147,10 +147,10 @@ float cFizyka::znajdz_normalna(const cFizyka &X)//znajduje normalna boku ktory j
 {
     float tab[4];//tablica zawierajaca odleglosci srodka obiektu od bokow, przyjmuje sie ze odbicie nastepuje od boku lezacego najblizej srodka obiektu
     int min_idx=0;
-    tab[0]=odleglosc(x_,y_,X.x_+X.granica_.xa,X.y_+X.granica_.ya,X.x_+X.granica_.xa,X.y_+X.granica_.yb);
-    tab[1]=odleglosc(x_,y_,X.x_+X.granica_.xa,X.y_+X.granica_.yb,X.x_+X.granica_.xb,X.y_+X.granica_.yb);
-    tab[2]=odleglosc(x_,y_,X.x_+X.granica_.xb,X.y_+X.granica_.yb,X.x_+X.granica_.xb,X.y_+X.granica_.ya);
-    tab[3]=odleglosc(x_,y_,X.x_+X.granica_.xb,X.y_+X.granica_.ya,X.x_+X.granica_.xa,X.y_+X.granica_.ya);
+    tab[0]=odleglosc(x_,y_-0.1,X.x_+X.granica_.xa,X.y_+X.granica_.ya,X.x_+X.granica_.xa,X.y_+X.granica_.yb);
+    tab[1]=odleglosc(x_,y_-0.1,X.x_+X.granica_.xa,X.y_+X.granica_.yb,X.x_+X.granica_.xb,X.y_+X.granica_.yb);
+    tab[2]=odleglosc(x_,y_-0.1,X.x_+X.granica_.xb,X.y_+X.granica_.yb,X.x_+X.granica_.xb,X.y_+X.granica_.ya);
+    tab[3]=odleglosc(x_,y_-0.1,X.x_+X.granica_.xb,X.y_+X.granica_.ya,X.x_+X.granica_.xa,X.y_+X.granica_.ya);
 
     //poszukiwanie minimalnej wartosci odleglosci
     for (int i=1;i<4;i++)

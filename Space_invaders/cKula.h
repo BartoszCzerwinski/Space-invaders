@@ -10,10 +10,12 @@ class cKula : public cFigura {
 	double a_, b_;
 	double kat_;
 
+
 public:
 	cKula(double a, double b, double x, double y, double kat);
 	void rysuj();
 	void ustaw_rozmiar(double a, double b);
+	float get_polozenie_y();
 
 };
 

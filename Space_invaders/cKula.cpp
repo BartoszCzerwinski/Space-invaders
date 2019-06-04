@@ -3,10 +3,14 @@
 cKula::cKula(double a, double b, double x, double y, double kat) : cFigura(x, y), a_(a), b_(b) {
 	ustaw_geometria(x, y, -a / 2, -b / 2, a / 2, b / 2);
 	this->kat_ = kat;
-	ustaw_predkosc(0.004, kat_);
+	ustaw_predkosc(0.001, kat_);
 	ustaw_fizyka(9.81*1E-6, 90);
 }
 
+float cKula::get_polozenie_y()
+{
+	return y_;
+}
 
 
 void cKula::rysuj() {
