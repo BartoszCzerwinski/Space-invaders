@@ -92,13 +92,14 @@ void cScena::timer() {
 	//std::cout<<current_time<<std::endl;
 	//std::cout.flush();
 
+	
 	if (kosmici_.size() == 0)
 	{
 
 
 
 
-		if ((ogranicznik_poziomu_ == 1) || (ogranicznik_poziomu_ == 2))
+		if ((ogranicznik_poziomu_ == 1) || (ogranicznik_poziomu_ == 2))     /// Tutaj zwiêksza nam poziomy przy tworzeniu nowych kosmitów
 		{
 			int i = ogranicznik_poziomu_;
 			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1 + i);
@@ -122,6 +123,8 @@ void cScena::timer() {
 	for (int i = 0;i < kosmici_.size();i++)
 	{
 		kosmici_[i]->kosmita_lata();
+		kosmici_[i]->obracaj_kosmite();
+		
 	}
 
 
@@ -134,7 +137,7 @@ void cScena::timer() {
 			break;
 		}
 
-		if (pociski_[i]->kolizja(*belka_2_))
+		if (pociski_[i]->kolizja(*belka_2_))                               
 		{
 			pociski_.erase(pociski_.begin() + i);
 			break;
@@ -178,7 +181,7 @@ void cScena::timer() {
 
 	for (int i = 0;i < pociski_.size();i++)
 	{
-		if (pociski_[i]->get_polozenie_y() >= 2.5)
+		if (pociski_[i]->get_polozenie_y() >= 2.5)              ///Usuwanie pocisku po przekroczeniu pozycji 2.5
 			pociski_.erase(pociski_.begin() + i);
 	}
 
@@ -272,3 +275,15 @@ cScena::~cScena() {
 	for (auto &el : figury_)
 		delete el;
 }
+
+
+//// POTRZEBNE
+/*	
+	#include<Windows.h>
+	#include<ctime>
+
+	srand(time(NULL));
+	float liczba_okruchow;
+	liczba_okruchow = rand() % 10 + 4;
+
+	*/

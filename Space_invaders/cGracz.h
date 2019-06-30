@@ -15,6 +15,7 @@ class cGracz : public cFigura {
 	int zycia_;
 	int ilosc_punktow_;
 	int magazynek_;
+	
 
 
 public:
