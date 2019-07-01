@@ -3,6 +3,7 @@
 #define FREEGLUT_CKOSMITA_H
 #include <GL/freeglut.h>
 #include "cFigura.h"
+#include"cKula.h"
 
 class cKosmita : public cFigura {
 	double a_, b_;
@@ -17,6 +18,7 @@ class cKosmita : public cFigura {
 	float kolor_g;
 	float kolor_b;
 	float kat_obrotu_kosmity_;
+	cKula* pocisk_;
 
 
 public:
@@ -27,6 +29,8 @@ public:
 	int get_poziom();
 	void ustaw_rozmiar(double a, double b);
 	void obracaj_kosmite();
+	cKula* ognia();
+
 
 
 

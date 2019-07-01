@@ -34,6 +34,7 @@ cFizyka::cFizyka()
 
     granica_.xb=1.0;
     granica_.yb=1.0;
+	
     reset();
 }
 
@@ -107,14 +108,14 @@ int cFizyka::kolizja(cFizyka &X) //wykrywanie kolizji z innym obiektem (funkcja 
     else if(w_prosokacie(X.x_ + X.granica_.xb, X.y_ + X.granica_.ya, *this) == 1 ) kolizja = 1;
 
     //obsluga kolizji
-    if (kolizja)
+    /*if (kolizja)
     {
         //znalezienie boku od ktorego nastapi odbicie
         float alfa_n= znajdz_normalna(X);
         odbicie(alfa_n);                                   //Tutaj zakomentowałem
         float kat=(alfa_n>0)?alfa_n-180:alfa_n+180;
         X.odbicie(kat);
-    }
+    }*/
 
     return kolizja;
 }

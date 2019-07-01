@@ -14,6 +14,11 @@ cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_
 	this->kat_obrotu_kosmity_ = 0;
 }
 
+cKula* cKosmita::ognia()
+{
+	return pocisk_ = new cKula(0.1, 0.1, x_, y_-0.3 , -90,-90,0,0.001);
+}
+
 void cKosmita::obracaj_kosmite()
 {
 	kat_obrotu_kosmity_ +=5;

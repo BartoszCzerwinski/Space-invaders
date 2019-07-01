@@ -6,6 +6,9 @@
 #include "cScena.h"
 #include <iostream>
 #include <chrono>
+#include<Windows.h>
+#include<ctime>
+
 cScena::cScena() : active_id_(0) {
 
 	gracz_ = new cGracz(1, 1, 0, 0, 3);
@@ -28,7 +31,11 @@ cScena::cScena() : active_id_(0) {
 	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1);
 	kosmici_.push_back(kosmita_1);
-
+	czas_strzalu_kosmitow_ = 0;
+	rysuj_gracza_ = 1;
+	rysuj_beleczke1_ = 1;
+	rysuj_beleczke2_ = 1;
+	rysuj_beleczke3_ = 1;
 }
 
 
@@ -42,9 +49,19 @@ void cScena::myszka(int button, int state, int x, int y)
 
 		rysuje_pocisk_ = 1;
 		pocisk_ = gracz_->ognia();
-		if (pociski_.size() != 3)
+		int licznik = 0;
+		for (int i = 0;i < pociski_.size();i++)
+		{
+			if (pociski_[i]->get_ID()==1)
+			{
+				licznik++;
+			}
+		}
+		if (licznik != 3)
 			pociski_.push_back(pocisk_);
-
+		/*if (pociski_.size() != 3)
+			pociski_.push_back(pocisk_);*/
+		
 
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP)
@@ -91,7 +108,54 @@ void cScena::timer() {
 
 	//std::cout<<current_time<<std::endl;
 	//std::cout.flush();
+	
+	
 
+	/// LOSOWANIE KTORY KOSMITA STRZELA ================================
+
+	std::vector<int> spis_odnotowanych;
+	int odnotowany;
+	if (czas_strzalu_kosmitow_ == 20)
+	{
+		czas_strzalu_kosmitow_ = 0;
+		srand(time(NULL));
+		for (int i = 0;i < kosmici_.size();i++)
+		{
+			
+			odnotowany= rand() % 4 + 1;
+			if(odnotowany<kosmici_.size())
+			spis_odnotowanych.push_back(odnotowany);
+		}
+
+		std::vector<int> te_do_strzelenia;
+		int licznik = 0, tmp;
+
+		for (int i = 0;i < spis_odnotowanych.size();i++)
+		{
+			for (int j = 0;j < spis_odnotowanych.size();j++)
+			{
+				if (spis_odnotowanych[i] == spis_odnotowanych[j])
+				{
+					tmp = spis_odnotowanych[i];
+					licznik++;
+				}
+			}
+			if (licznik == 1)
+			{
+				te_do_strzelenia.push_back(tmp);
+			}
+			licznik = 0;
+		}
+
+		for (int i = 0;i < te_do_strzelenia.size();i++)
+		{
+			pocisk_ = kosmici_[te_do_strzelenia[i]]->ognia();
+			pociski_.push_back(pocisk_);
+		}
+
+	}
+	
+	///==============================================================================
 	
 	if (kosmici_.size() == 0)
 	{
@@ -120,6 +184,7 @@ void cScena::timer() {
 	}
 
 
+
 	for (int i = 0;i < kosmici_.size();i++)
 	{
 		kosmici_[i]->kosmita_lata();
@@ -133,23 +198,46 @@ void cScena::timer() {
 	{
 		if (pociski_[i]->kolizja(*belka_1_))
 		{
+			
 			pociski_.erase(pociski_.begin() + i);
+			belka_1_->zmniejsz_zycie_belki();
+			if (belka_1_->get_zycia_belki() == 0)
+			{
+
+				delete belka_1_;
+				rysuj_beleczke1_ = 0;
+
+			}
 			break;
 		}
 
 		if (pociski_[i]->kolizja(*belka_2_))                               
 		{
+		
 			pociski_.erase(pociski_.begin() + i);
+			belka_2_->zmniejsz_zycie_belki();
+			if (belka_2_->get_zycia_belki() == 0)
+			{
+				delete belka_2_;
+				rysuj_beleczke2_ = 0;
+			}
 			break;
 		}
 
 		if (pociski_[i]->kolizja(*belka_3_))
 		{
+		
+			
 			pociski_.erase(pociski_.begin() + i);
+			belka_3_->zmniejsz_zycie_belki();
+			if (belka_3_->get_zycia_belki() == 0)
+			{
+				delete belka_3_;
+				rysuj_beleczke3_ = 0;
+			}
 			break;
 		}
 	}
-
 
 
 	for (int i = 0;i < pociski_.size();i++)
@@ -164,7 +252,7 @@ void cScena::timer() {
 		{
 			if ((pociski_.size() != 0) && (zapamietnik != i))      /// Haks dzieki niemu nie wywala z tym zapamietnikiem 
 			{
-				if (pociski_[i]->kolizja(*kosmici_[j]))
+				if ((pociski_[i]->kolizja(*kosmici_[j]))&&(pociski_[i]->get_ID()==1))
 				{
 					pociski_.erase(pociski_.begin() + i);
 					zapamietnik = i;
@@ -179,16 +267,40 @@ void cScena::timer() {
 		}
 	}
 
+
+
+	for (int i = 0;i < pociski_.size();i++)
+	{
+		if ((pociski_[i]->kolizja(*gracz_)) && pociski_[i]->get_ID() == 0)
+		{
+			pociski_.erase(pociski_.begin() + i);
+			gracz_->zmniejsz_zycia();
+			
+		}
+	}
+
+
 	for (int i = 0;i < pociski_.size();i++)
 	{
 		if (pociski_[i]->get_polozenie_y() >= 2.5)              ///Usuwanie pocisku po przekroczeniu pozycji 2.5
 			pociski_.erase(pociski_.begin() + i);
+
 	}
 
+	for (int i = 0;i < pociski_.size();i++)
+	{
+		if (pociski_[i]->get_polozenie_y() <=-2.5 )              ///Usuwanie pocisku po przekroczeniu pozycji -2.5
+			pociski_.erase(pociski_.begin() + i);
 
+	}
 
+	if (gracz_->get_zycia() == 0)
+	{
+		rysuj_gracza_ = 0;
+		delete gracz_;
+	}
 
-
+	czas_strzalu_kosmitow_++;
 
 	glutPostRedisplay();
 	glutTimerFunc(40, timer_binding, 0);
@@ -199,9 +311,16 @@ void cScena::display() {
 
 	glPushMatrix();
 	{
+		if(rysuj_gracza_==1)
 		gracz_->rysuj();
+
+		if(rysuj_beleczke1_==1)
 		belka_1_->rysuj();
+
+		if(rysuj_beleczke2_==1)
 		belka_2_->rysuj();
+
+		if(rysuj_beleczke3_==1)
 		belka_3_->rysuj();
 
 		for (int i = 0;i < pociski_.size();i++)

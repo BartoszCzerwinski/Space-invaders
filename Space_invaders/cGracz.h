@@ -23,6 +23,8 @@ public:
 	void rysuj();
 	void ustaw_rozmiar(double a, double b);
 	cKula* ognia();
+	void zmniejsz_zycia();
+	int get_zycia();
 
 
 };

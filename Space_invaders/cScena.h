@@ -34,6 +34,11 @@ class cScena {
 	int rysuj_kosmite_;
 	int sprawdzalnik_;
 	int ogranicznik_poziomu_;
+	int czas_strzalu_kosmitow_;
+	int rysuj_gracza_;
+	int rysuj_beleczke1_;
+	int rysuj_beleczke2_;
+	int rysuj_beleczke3_;
 
 
 public:

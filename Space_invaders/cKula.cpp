@@ -1,10 +1,23 @@
 #include "cKula.h"
 
-cKula::cKula(double a, double b, double x, double y, double kat) : cFigura(x, y), a_(a), b_(b) {
+cKula::cKula(double a, double b, double x, double y, double kat,float kat_grawitacji,int ID,float predkosc) : cFigura(x, y), a_(a), b_(b) {
 	ustaw_geometria(x, y, -a / 2, -b / 2, a / 2, b / 2);
 	this->kat_ = kat;
-	ustaw_predkosc(0.001, kat_);
-	ustaw_fizyka(9.81*1E-6, 90);
+	this->kat_grawitacji_ = kat_grawitacji;
+	this->ID_ = ID;
+	this->predkosc_ = predkosc;
+	ustaw_predkosc(predkosc_, kat_);
+	ustaw_fizyka(9.81*1E-6, kat_grawitacji_);
+}
+
+void cKula::ustaw_predkosc_belka()
+{
+	ustaw_predkosc(predkosc_, -kat_);
+}
+
+int cKula::get_ID()
+{
+	return ID_;
 }
 
 float cKula::get_polozenie_y()
