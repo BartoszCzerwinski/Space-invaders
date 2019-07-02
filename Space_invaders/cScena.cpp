@@ -23,14 +23,21 @@ cScena::cScena() : active_id_(0) {
 	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1);
 	kosmici_.push_back(kosmita_1);
+	kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1);           
+	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1);
 	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1);            ///Zamienic 3 na 1 !
+	kosmici_.push_back(kosmita_1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1);
 	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1);
 	kosmici_.push_back(kosmita_1);
 	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1);
 	kosmici_.push_back(kosmita_1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1);
+	kosmici_.push_back(kosmita_1);
+
 	czas_strzalu_kosmitow_ = 0;
 	rysuj_gracza_ = 1;
 	rysuj_beleczke1_ = 1;
@@ -122,7 +129,7 @@ void cScena::timer() {
 		for (int i = 0;i < kosmici_.size();i++)
 		{
 			
-			odnotowany= rand() % 4 + 1;
+			odnotowany= rand() % 6 + 1;
 			if(odnotowany<kosmici_.size())
 			spis_odnotowanych.push_back(odnotowany);
 		}
@@ -170,13 +177,19 @@ void cScena::timer() {
 			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1 + i);
 			kosmici_.push_back(kosmita_1);
+			kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1+i);            ///Zamienic 3 na 1 !
+			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1 + i);
 			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1 + i);
 			kosmici_.push_back(kosmita_1);
+			kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1+i);
+			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1 + i);
 			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1 + i);
+			kosmici_.push_back(kosmita_1);
+			kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1);
 			kosmici_.push_back(kosmita_1);
 			ogranicznik_poziomu_++;
 
@@ -188,7 +201,6 @@ void cScena::timer() {
 	for (int i = 0;i < kosmici_.size();i++)
 	{
 		kosmici_[i]->kosmita_lata();
-		kosmici_[i]->obracaj_kosmite();
 		
 	}
 

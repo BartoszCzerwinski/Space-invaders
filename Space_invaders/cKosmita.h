@@ -17,8 +17,9 @@ class cKosmita : public cFigura {
 	float kolor_r;
 	float kolor_g;
 	float kolor_b;
-	float kat_obrotu_kosmity_;
 	cKula* pocisk_;
+	float kat_obrotu_statuku_;
+	int przelacznik;
 
 
 public:
@@ -28,8 +29,8 @@ public:
 	void kosmita_traci_poziom();
 	int get_poziom();
 	void ustaw_rozmiar(double a, double b);
-	void obracaj_kosmite();
 	cKula* ognia();
+	
 
 
 

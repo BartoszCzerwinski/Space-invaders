@@ -11,7 +11,8 @@ cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_
 	do_gory = 1;
 	do_dolu = 0;
 	this->poziom_ = poziom;
-	this->kat_obrotu_kosmity_ = 0;
+	this->kat_obrotu_statuku_ = -5;
+	this->przelacznik = 0;
 }
 
 cKula* cKosmita::ognia()
@@ -19,11 +20,7 @@ cKula* cKosmita::ognia()
 	return pocisk_ = new cKula(0.1, 0.1, x_, y_-0.3 , -90,-90,0,0.001);
 }
 
-void cKosmita::obracaj_kosmite()
-{
-	kat_obrotu_kosmity_ +=5;
-	
-}
+
 
 int cKosmita::get_poziom()
 {
@@ -57,7 +54,7 @@ void cKosmita::kosmita_lata()
 		}
 	}
 
-	if ((do_gory == 1) && y_ <= 1.5 + pozycja_kolumn_y_)
+	if ((do_gory == 1) && y_ <= 1.5+ pozycja_kolumn_y_)
 	{
 		y_ += 0.02;
 		if (y_ >= 1.5 + pozycja_kolumn_y_)
@@ -66,10 +63,10 @@ void cKosmita::kosmita_lata()
 			do_dolu = 1;
 		}
 	}
-	if ((do_dolu == 1) && y_ >= -1 + pozycja_kolumn_y_)
+	if ((do_dolu == 1) && y_ >= -0.2 + pozycja_kolumn_y_)
 	{
 		y_ -= 0.02;
-		if (y_ <= -1 + pozycja_kolumn_y_)
+		if (y_ <= -0.2 + pozycja_kolumn_y_)
 		{
 			do_gory = 1;
 			do_dolu = 0;
@@ -102,39 +99,55 @@ void cKosmita::rysuj() {
 	}
 
 	/// PASEK
-
-	glPushMatrix();
-
-
-	glTranslated(x_, y_, 0.0);
-	glRotated(kat_obrotu_kosmity_, 1.0, 0.0, 0.0);
-	glRotated(0, 1.0, 0.0, 0.0);
-	glRotated(0, 0.0, 0.0, 1.0);
-
-	glColor3d(1, 1, 1 );
-
-	glBegin(GL_POLYGON);
-	{
-		glVertex3d(-a_ / 2, 0.01, 0);
-		glVertex3d(a_ / 2, 0.01, 0);
-		glVertex3d(a_ / 2, -0.01, 0);
-		glVertex3d(-a_ / 2, -0.01, 0);
 	
+
+	if ((kat_obrotu_statuku_ < 2.5) && przelacznik == 0)
+	{
+		kat_obrotu_statuku_ = kat_obrotu_statuku_ + 0.5;
+		if (kat_obrotu_statuku_ == 2.5)
+			przelacznik = 10;
+	}
+	else
+	{
+		przelacznik = przelacznik - 0.5;
+		kat_obrotu_statuku_ = kat_obrotu_statuku_ - 0.5;
+
 	}
 
+		
+		glPushMatrix();
 
-	glEnd();
-	glPopMatrix();
 
+		glTranslated(x_, y_, 0.0);
+		glRotated(kat_obrotu_statuku_, 0.0, 0.0, 1.0);
+		glRotated(0, 0.0, 1.0, 0.0);
+		glRotated(kat_obrotu_statuku_, 0.0, 0.0, 1.0);
+
+		glColor3d(1, 1, 1);
+
+		glBegin(GL_POLYGON);
+		{
+			glVertex3d(-a_ / 2, 0.01, 0);
+			glVertex3d(a_ / 2, 0.01, 0);
+			glVertex3d(a_ / 2, -0.01, 0);
+			glVertex3d(-a_ / 2, -0.01, 0);
+
+		}
+
+		glEnd();
+		glPopMatrix();
+
+		
 	/// OBRYS
 
+			
 	glPushMatrix();
 
 
 	glTranslated(x_, y_, 0.0);
 	glRotated(0, 1.0, 0.0, 0.0);
 	glRotated(0, 0.0, 1.0, 0.0);
-	glRotated(0, 0.0, 0.0, 1.0);
+	glRotated(kat_obrotu_statuku_, 0.0, 0.0, 1.0);
 
 	glColor3d(kolor_r, kolor_g, kolor_b);
 
@@ -158,7 +171,7 @@ void cKosmita::rysuj() {
 	glTranslated(x_, y_, 0.0);
 	glRotated(0, 1.0, 0.0, 0.0);
 	glRotated(0, 0.0, 1.0, 0.0);
-	glRotated(0, 0.0, 0.0, 1.0);
+	glRotated(kat_obrotu_statuku_, 0.0, 0.0, 1.0);
 
 	glColor3d(kolor_r, kolor_g, kolor_b);
 
