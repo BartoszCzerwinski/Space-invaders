@@ -8,6 +8,8 @@
 #include <chrono>
 #include<Windows.h>
 #include<ctime>
+#include<sstream>
+
 
 cScena::cScena() : active_id_(0) {
 
@@ -43,6 +45,7 @@ cScena::cScena() : active_id_(0) {
 	rysuj_beleczke1_ = 1;
 	rysuj_beleczke2_ = 1;
 	rysuj_beleczke3_ = 1;
+	do_wyswietlenie_0_ = 0;
 }
 
 
@@ -172,6 +175,7 @@ void cScena::timer() {
 
 		if ((ogranicznik_poziomu_ == 1) || (ogranicznik_poziomu_ == 2))     /// Tutaj zwiêksza nam poziomy przy tworzeniu nowych kosmitów
 		{
+			pociski_.clear();
 			int i = ogranicznik_poziomu_;
 			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1 + i);
 			kosmici_.push_back(kosmita_1);
@@ -189,7 +193,7 @@ void cScena::timer() {
 			kosmici_.push_back(kosmita_1);
 			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1 + i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1);
+			kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1+i);
 			kosmici_.push_back(kosmita_1);
 			ogranicznik_poziomu_++;
 
@@ -269,9 +273,11 @@ void cScena::timer() {
 					pociski_.erase(pociski_.begin() + i);
 					zapamietnik = i;
 					kosmici_[j]->kosmita_traci_poziom();
+					gracz_->zliczaj_punkty();
 					if (kosmici_[j]->get_poziom() == 0)
 					{
 						kosmici_.erase(kosmici_.begin() + j);
+					
 					}
 				}
 
@@ -309,7 +315,9 @@ void cScena::timer() {
 	if (gracz_->get_zycia() == 0)
 	{
 		rysuj_gracza_ = 0;
+		do_wyswietlenie_0_ = 1;
 		delete gracz_;
+		
 	}
 
 	czas_strzalu_kosmitow_++;
@@ -323,6 +331,42 @@ void cScena::display() {
 
 	glPushMatrix();
 	{
+		glColor3d(1.0, 0.0, 0.0);
+		std::string tekst1,tekst2,tekst3,ne;
+		tekst1 = "S C O R E";
+		gracz_->wyswietlanie_statystyk(1.6, 2.3, 0, tekst1.data());
+		tekst2 = "L I F E S";
+		gracz_->wyswietlanie_statystyk(1.6, 2.1, 0, tekst2.data());
+		if (do_wyswietlenie_0_ == 0)
+		{
+			char znak[30];
+			int liczba = gracz_->get_zycia();
+			_itoa_s(liczba, znak, 10);
+			gracz_->wyswietlanie_statystyk(3, 2.1, 0, znak);
+		}
+		else
+		{
+			char znak[30];
+			int liczba =0;
+			_itoa_s(liczba, znak, 10);
+			gracz_->wyswietlanie_statystyk(3, 2.1, 0, znak);
+		}
+		if (do_wyswietlenie_0_ == 0)
+		{
+			char znak[30];
+			int liczba = gracz_->get_punkty();
+			_itoa_s(liczba, znak, 10);
+			gracz_->wyswietlanie_statystyk(3, 2.3, 0, znak);
+			ostatni_zapis_ = liczba;
+		}
+		else
+		{
+			char znak[30];
+			int liczba = ostatni_zapis_;
+			_itoa_s(liczba, znak, 10);
+			gracz_->wyswietlanie_statystyk(3, 2.3, 0, znak);
+		}
+
 		if(rysuj_gracza_==1)
 		gracz_->rysuj();
 
@@ -401,6 +445,7 @@ void cScena::key(unsigned char key, int x, int y) {
 
 
 }
+
 
 cScena::~cScena() {
 	for (auto &el : figury_)

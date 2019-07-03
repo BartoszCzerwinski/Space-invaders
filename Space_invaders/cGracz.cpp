@@ -11,6 +11,28 @@ cGracz::cGracz(double a, double b, double x, double y, int zycia) : cFigura(x, y
 	this->zycia_ = zycia;
 	this->magazynek_ = 3;
 	ustaw_geometria(x, y, -0.477, -2.4, 0.477, -1.9);
+	ilosc_punktow_ = 0;
+}
+
+
+void cGracz::wyswietlanie_statystyk(float x, float y, float z, const char *string)
+{
+	glRasterPos3f(x, y, z);
+
+	for (const char* c = string; *c != '\0'; c++)
+	{
+		glutBitmapCharacter( GLUT_BITMAP_TIMES_ROMAN_24, *c); // Updates the position
+	}
+}
+
+int cGracz::get_punkty()
+{
+	return ilosc_punktow_;
+}
+
+void cGracz::zliczaj_punkty()
+{
+	ilosc_punktow_ = ilosc_punktow_ + 10;
 }
 
 int cGracz::get_zycia()

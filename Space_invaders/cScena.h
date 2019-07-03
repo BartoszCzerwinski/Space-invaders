@@ -9,6 +9,7 @@
 #include"cKula.h"
 #include"cKosmita.h"
 #include <vector>
+#include<sstream>
 
 //bindingi dla callbacków
 void resize_binding(int width, int height);
@@ -39,6 +40,8 @@ class cScena {
 	int rysuj_beleczke1_;
 	int rysuj_beleczke2_;
 	int rysuj_beleczke3_;
+	int do_wyswietlenie_0_;
+	int ostatni_zapis_;
 
 
 public:
