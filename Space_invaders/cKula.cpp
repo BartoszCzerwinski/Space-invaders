@@ -28,23 +28,52 @@ float cKula::get_polozenie_y()
 
 void cKula::rysuj() {
 
-
-	glPushMatrix();
-
-	glTranslated(x_, y_, 0.0);
-	glRotated(0, 1.0, 0.0, 0.0);
-	glRotated(0, 0.0, 1.0, 0.0);
-	glRotated(0, 0.0, 0.0, 1.0);
-
-	glColor3d(1.0, 0.0, 0.0);
-
-	glBegin(GL_POLYGON);
+	if (ID_ == 0)
 	{
-		glVertex3d(-a_ / 2, b_ / 2, 0);
-		glVertex3d(a_ / 2, b_ / 2, 0);
-		glVertex3d(a_ / 2, -b_ / 2, 0);
-		glVertex3d(-a_ / 2, -b_ / 2, 0);
+		glPushMatrix();
+
+		glTranslated(x_, y_, 0.0);
+		glRotated(0, 1.0, 0.0, 0.0);
+		glRotated(0, 0.0, 1.0, 0.0);
+		glRotated(0, 0.0, 0.0, 1.0);
+
+		glColor3d(1.0, 1.0, 0.0);
+
+		glBegin(GL_POLYGON);
+		{
+			glVertex3d(-a_ / 2, b_ / 2, 0);
+			glVertex3d(a_/2, b_ / 2, 0);
+			glVertex3d(a_ / 2, -b_ / 2, 0);
+			glVertex3d(0, 0, 0);
+			glVertex3d(-a_/2, -b_/2, 0);
+
+		}
+		glEnd();
+		glPopMatrix();
 	}
-	glEnd();
-	glPopMatrix();
+	if (ID_ == 1)
+	{
+		glPushMatrix();
+
+
+		glTranslated(x_, y_, 0.0);
+		glRotated(0, 1.0, 0.0, 0.0);
+		glRotated(0, 0.0, 1.0, 0.0);
+		glRotated(0, 0.0, 0.0, 1.0);
+
+		glColor3d(1, 0, 0);
+
+
+		glBegin(GL_POLYGON);
+		for (float kat = 0;kat < 360;kat += 10)
+		{
+			GLfloat x, y;
+			x = a_ / 2 * cos(kat / 180 * 3.14);
+			y = b_ / 2 * sin(kat / 180 * 3.14);
+			glVertex2f(x, y );
+		}
+
+		glEnd();
+		glPopMatrix();
+	}
 }
