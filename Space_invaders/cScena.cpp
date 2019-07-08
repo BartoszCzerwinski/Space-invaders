@@ -19,33 +19,32 @@ cScena::cScena() : active_id_(0) {
 	belka_3_ = new cBelka(0.954, 0.3, 2, -1.5);
 	rysuje_pocisk_ = 0;
 	rysuj_kosmite_ = 1;
-	sprawdzalnik_ = 0;
 	ogranicznik_poziomu_ = 1;
-	kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1);           
+	kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1,1);           
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1);            ///Zamienic 3 na 1 !
+	kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1,1);          
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1,1);
 	kosmici_.push_back(kosmita_1);
-	kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1);
+	kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1,1);
 	kosmici_.push_back(kosmita_1);
 
-	czas_strzalu_kosmitow_ = 0;
+	czas_strzalu_kosmitow_ = 0;    
 	rysuj_gracza_ = 1;
 	rysuj_beleczke1_ = 1;
 	rysuj_beleczke2_ = 1;
 	rysuj_beleczke3_ = 1;
-	do_wyswietlenie_0_ = 0;
+	do_wyswietlenie_0_ = 0;     /// Obsluguje wyswietlanie 0 w napisach 
 }
 
 
@@ -57,6 +56,7 @@ void cScena::myszka(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 	{
 
+		/// Ograniczenie do 3 strza³ów
 		rysuje_pocisk_ = 1;
 		pocisk_ = gracz_->ognia();
 		int licznik = 0;
@@ -69,8 +69,7 @@ void cScena::myszka(int button, int state, int x, int y)
 		}
 		if (licznik != 3)
 			pociski_.push_back(pocisk_);
-		/*if (pociski_.size() != 3)
-			pociski_.push_back(pocisk_);*/
+	    ///=================================
 		
 
 	}
@@ -113,13 +112,9 @@ void cScena::resize(int width, int height) {
 
 void cScena::timer() {
 
-	//int current_time = getTickCount();
-	//auto current_time = std::chrono::high_resolution_clock::now();
-
-	//std::cout<<current_time<<std::endl;
-	//std::cout.flush();
 	
 	
+	ShowCursor(false);
 
 	/// LOSOWANIE KTORY KOSMITA STRZELA ================================
 
@@ -177,23 +172,23 @@ void cScena::timer() {
 		{
 			pociski_.clear();
 			int i = ogranicznik_poziomu_;
-			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0, -1, 0, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, -1, 0.6, -1, 0.6, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1+i);            ///Zamienic 3 na 1 !
+			kosmita_1 = new cKosmita(0.954, 0.5, -1, -0.6, -1, -0.6, 1+i,1+i);            
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0, 0, 0, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 0, 0.6, 0, 0.6, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1+i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 0, -0.6, 0, -0.6, 1+i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0, 1, 0, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1 + i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 1, 0.6, 1, 0.6, 1 + i,1+i);
 			kosmici_.push_back(kosmita_1);
-			kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1+i);
+			kosmita_1 = new cKosmita(0.954, 0.5, 1, -0.6, 1, -0.6, 1+i,1+i);
 			kosmici_.push_back(kosmita_1);
 			ogranicznik_poziomu_++;
 
@@ -208,7 +203,7 @@ void cScena::timer() {
 		
 	}
 
-
+	/// Kolizja pocisku z belkami
 
 	for (int i = 0;i < pociski_.size();i++)
 	{
@@ -254,12 +249,14 @@ void cScena::timer() {
 			break;
 		}
 	}
-
+	///================================================
 
 	for (int i = 0;i < pociski_.size();i++)
 	{
 		pociski_[i]->aktualizuj(GetTickCount());
 	}
+
+	/// Kolizja pocisku z kosmitami
 
 	int zapamietnik = -1;
 	for (int i = 0;i < pociski_.size();i++)
@@ -285,7 +282,7 @@ void cScena::timer() {
 		}
 	}
 
-
+	///=======================================
 
 	for (int i = 0;i < pociski_.size();i++)
 	{
@@ -401,7 +398,6 @@ void cScena::set_callbacks() {
 	glutDisplayFunc(display_binding);
 	glutPassiveMotionFunc(ruszanie_myszka);
 	glutMouseFunc(onMouseButton);
-	//glutIdleFunc(idle_binding);
 	glutTimerFunc(40, timer_binding, 0);
 	glutKeyboardFunc(key_binding);
 }
@@ -436,9 +432,7 @@ void cScena::key(unsigned char key, int x, int y) {
 
 	case 'z':
 	{
-		rysuje_pocisk_ = 1;
-		pocisk_ = gracz_->ognia();
-		pociski_.push_back(pocisk_);
+		
 		break;
 	}
 	}
@@ -453,13 +447,3 @@ cScena::~cScena() {
 }
 
 
-//// POTRZEBNE
-/*	
-	#include<Windows.h>
-	#include<ctime>
-
-	srand(time(NULL));
-	float liczba_okruchow;
-	liczba_okruchow = rand() % 10 + 4;
-
-	*/

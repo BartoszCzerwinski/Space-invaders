@@ -33,7 +33,6 @@ class cScena {
 	std::vector<cKosmita*> kosmici_;
 	int rysuje_pocisk_;
 	int rysuj_kosmite_;
-	int sprawdzalnik_;
 	int ogranicznik_poziomu_;
 	int czas_strzalu_kosmitow_;
 	int rysuj_gracza_;

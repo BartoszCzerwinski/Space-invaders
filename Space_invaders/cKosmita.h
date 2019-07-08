@@ -20,10 +20,12 @@ class cKosmita : public cFigura {
 	cKula* pocisk_;
 	float kat_obrotu_statuku_;
 	int przelacznik;
+	int kiedunek_lotu_;
+	int ograniczenie_lotu_;
 
 
 public:
-	cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom_);
+	cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom_,int kierunek_lotu);
 	void rysuj();
 	void kosmita_lata();
 	void kosmita_traci_poziom();

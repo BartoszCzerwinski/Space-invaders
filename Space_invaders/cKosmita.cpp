@@ -2,7 +2,7 @@
 
 #include "cKosmita.h"
 
-cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom) : cFigura(x, y), a_(a), b_(b) {
+cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_x, float pozycja_kolumn_y, int poziom,int kierunek_lotu) : cFigura(x, y), a_(a), b_(b) {
 	ustaw_geometria(x, y, -a / 2, -b / 2, a / 2, b / 2);
 	this->pozycja_kolumn_x_ = pozycja_kolumn_x;
 	this->pozycja_kolumn_y_ = pozycja_kolumn_y;
@@ -13,6 +13,8 @@ cKosmita::cKosmita(double a, double b, double x, double y, float pozycja_kolumn_
 	this->poziom_ = poziom;
 	this->kat_obrotu_statuku_ = -5;
 	this->przelacznik = 0;
+	this->kiedunek_lotu_ = kierunek_lotu;
+	this->ograniczenie_lotu_ = 0;
 }
 
 cKula* cKosmita::ognia()
@@ -34,44 +36,105 @@ void cKosmita::kosmita_traci_poziom()
 
 void cKosmita::kosmita_lata()
 {
-	if ((do_prawej == 1) && x_ <= 1.909 + pozycja_kolumn_x_)
+	
+
+	if ((kiedunek_lotu_ == 1)||(kiedunek_lotu_==3))
 	{
-		x_ += 0.02;
-		if (x_ >= 1.909 + pozycja_kolumn_x_)
+
+		if ((do_prawej == 1) && x_ <= 1.909 + pozycja_kolumn_x_)
+		{
+			x_ += 0.02;
+			if (x_ >= 1.909 + pozycja_kolumn_x_)
+			{
+				do_prawej = 0;
+				do_lewej = 1;
+			}
+		}
+
+		if ((do_lewej == 1) && x_ >= -1.909 + pozycja_kolumn_x_)
+		{
+			x_ -= 0.02;
+			if (x_ <= -1.909 + pozycja_kolumn_x_)
+			{
+				do_prawej = 1;
+				do_lewej = 0;
+			}
+		}
+
+		if ((do_gory == 1) && y_ <= 1.5 + pozycja_kolumn_y_)
+		{
+			y_ += 0.02;
+			if (y_ >= 1.5 + pozycja_kolumn_y_)
+			{
+				do_gory = 0;
+				do_dolu = 1;
+			}
+		}
+		if ((do_dolu == 1) && y_ >= -0.2 + pozycja_kolumn_y_)
+		{
+			y_ -= 0.02;
+			if (y_ <= -0.2 + pozycja_kolumn_y_)
+			{
+				do_gory = 1;
+				do_dolu = 0;
+			}
+		}
+	}
+
+	if (kiedunek_lotu_ == 2)
+	{
+		if (ograniczenie_lotu_ == 0)
 		{
 			do_prawej = 0;
 			do_lewej = 1;
-		}
-	}
-
-	if ((do_lewej == 1) && x_ >= -1.909 + pozycja_kolumn_x_)
-	{
-		x_ -= 0.02;
-		if (x_ <= -1.909 + pozycja_kolumn_x_)
-		{
-			do_prawej = 1;
-			do_lewej = 0;
-		}
-	}
-
-	if ((do_gory == 1) && y_ <= 1.5+ pozycja_kolumn_y_)
-	{
-		y_ += 0.02;
-		if (y_ >= 1.5 + pozycja_kolumn_y_)
-		{
-			do_gory = 0;
-			do_dolu = 1;
-		}
-	}
-	if ((do_dolu == 1) && y_ >= -0.2 + pozycja_kolumn_y_)
-	{
-		y_ -= 0.02;
-		if (y_ <= -0.2 + pozycja_kolumn_y_)
-		{
 			do_gory = 1;
 			do_dolu = 0;
 		}
+
+		if ((do_prawej == 1) && x_ <= 1.909 + pozycja_kolumn_x_)
+		{
+			x_ += 0.02;
+			if (x_ >= 1.909 + pozycja_kolumn_x_)
+			{
+				do_prawej = 0;
+				do_lewej = 1;
+				ograniczenie_lotu_ = 1;
+			}
+		}
+
+		if ((do_lewej == 1) && x_ >= -1.909 + pozycja_kolumn_x_)
+		{
+			x_ -= 0.02;
+			if (x_ <= -1.909 + pozycja_kolumn_x_)
+			{
+				do_prawej = 1;
+				do_lewej = 0;
+				ograniczenie_lotu_ = 1;
+			}
+		}
+
+		if ((do_gory == 1) && y_ <= 1.5 + pozycja_kolumn_y_)
+		{
+			y_ += 0.02;
+			if (y_ >= 1.5 + pozycja_kolumn_y_)
+			{
+				do_gory = 0;
+				do_dolu = 1;
+				ograniczenie_lotu_ = 1;
+			}
+		}
+		if ((do_dolu == 1) && y_ >= -0.2 + pozycja_kolumn_y_)
+		{
+			y_ -= 0.02;
+			if (y_ <= -0.2 + pozycja_kolumn_y_)
+			{
+				do_gory = 1;
+				do_dolu = 0;
+				ograniczenie_lotu_ = 1;
+			}
+		}
 	}
+
 
 
 }
